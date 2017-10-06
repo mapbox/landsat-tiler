@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Landsat viewer</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.css' rel='stylesheet' />
+
+	<link href="https://api.mapbox.com/mapbox-assembly/v0.12.0/assembly.min.css" rel="stylesheet">
+	<script async defer src="https://api.mapbox.com/mapbox-assembly/v0.12.0/assembly.js"></script>
+
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="content">
+		<div class="main-container">
+
+			<div class="right-panel">
+
+				<div class="right-panel-content">
+
+					<div class="list-img"></div>
+
+					<div class="img-display-options">
+						<span>RGB Combination </span>
+
+						<div class='toggle-group mr18'>
+							<label class='toggle-container'>
+								<input data="6,5,4" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>vegetation analysis</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="7,6,4" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>urban</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="4,3,2" checked name='toggle' type='radio'/>
+								<div class='btn btn--stroke btn--darken50 toggle'>natural color</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="5,4,3" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>false color</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="5,6,4" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>land/water</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="7,6,5" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>atmospheric penetration</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="6,5,2" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>agriculture</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="5,6,2" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>healthy veg</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="7,5,2" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>forest burn</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="7,5,4" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>shortwave ir</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="5,7,1" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>false2</div>
+							</label>
+							<label class='toggle-container'>
+								<input data="7,5,3" name='toggle' type='radio' />
+								<div class='btn btn--stroke btn--darken50 toggle'>natural w/ atmo</div>
+							</label>
+						</div>
+
+						<span>Histogramm cut </span>
+
+						<div class="inputHisto">
+							<input id="minCount" class='input col--2' value='5' />
+							<span class="col--2 center"> - </span>
+							<input id="maxCount" class='input col--2' value='95' />
+							<span class="col--2 pl6"> %</span>
+
+							<button class='btn' onclick="updateMetadata()">Apply</button>
+						</div>
+						<button id='btn-clear' class='btn'><span>Clear</span></button>
+
+					</div>
+
+					<span class="spin none">
+						<div class="round animation-spin animation--infinite animation--speed-1">
+							<svg class='icon icon--l inline-block'><use xlink:href='#icon-satellite'/></svg>
+						</div>
+					</span>
+
+				</div>
+
+			</div>
+
+			<div id="map" class="map">
+
+				<div class="landsat-info none">
+					<span class="l8id"></span>
+					<span class="l8date"></span>
+					<span class="l8rgb"></span>
+				</div>
+
+				<div class="loading-map">
+					<div class="middle-center">
+						<span>Loading</span>
+						<div class="round animation-spin animation--infinite animation--speed-1">
+							<svg class='icon icon--l inline-block'><use xlink:href='#icon-satellite'/></svg>
+						</div>
+					</div>
+				</div>
+
+				<span class="metaloader none">
+					<div class="round animation-spin animation--infinite animation--speed-1">
+						<svg class='icon icon--l inline-block'><use xlink:href='#icon-satellite'/></svg>
+					</div>
+				</span>
+
+				<span class="errorMessage none">
+						<svg class='icon icon--l'><use xlink:href='#icon-alert'/></svg>
+						<span >Error</span>
+				</span>
+
+			</div>
+
+		</div>
+	</div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src='https://npmcdn.com/@turf/turf@3.5.1/turf.min.js'></script>
+	<script src="js/app.js" charset="utf-8"></script>
+
+</body>
+</html>
