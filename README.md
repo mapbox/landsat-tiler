@@ -56,23 +56,11 @@ One of the easiest way to **Build** and **Deploy** a Lambda function is to use [
 
 ```bash
 #configure serverless (https://serverless.com/framework/docs/providers/aws/guide/credentials/)
-npm install serverless -g
+npm install
 sls deploy
 ```
 
 <img width="500" alt="sls deploy" src="https://cloud.githubusercontent.com/assets/10407788/22188728/d9ffec44-e0e5-11e6-9a77-569a791ccaf2.png">
-
-There is a manual task to do on AWS to make everything work.
-As we are returning encoded binary content (png/jpg) from API gateway we need to enable binary support.
-
-Open the AWS console, go to the API Gateway page, add the binary media types `*/*` and save.
-
-<img width="500" alt="Edit Binary Support" src="https://cloud.githubusercontent.com/assets/10407788/22188711/bd625edc-e0e5-11e6-8e88-76824af6033d.png">
-
-Once done you have to re-deploy the API again from the AWS API gateway web console.
-
-<img width="500" alt="Re Stage" src="https://cloud.githubusercontent.com/assets/10407788/22188716/c61636a2-e0e5-11e6-95dd-eb10c29d74c2.png">
-
 
 :tada: You should be all set there.
 

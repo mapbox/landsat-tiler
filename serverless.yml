@@ -27,6 +27,14 @@ provider:
   #Optional Bucket where you store your lambda package
   # deploymentBucket: {YOUR-BUCKET}
 
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+
+plugins:
+  - serverless-apigw-binary
+
 package:
   artifact: package.zip
 
