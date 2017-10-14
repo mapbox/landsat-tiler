@@ -16,6 +16,7 @@ provider:
 
   environment:
     PYTHONPATH: /var/task/vendored
+    GDAL_DATA: /var/task/share/gdal
     GDAL_CACHEMAX: 75%
     GDAL_TIFF_OVR_BLOCKSIZE: 512
     VSI_CACHE: TRUE
