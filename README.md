@@ -65,7 +65,7 @@ sls deploy
 There is a manual task to do on AWS to make everything work.
 As we are returning encoded binary content (png/jpg) from API gateway we need to enable binary support.
 
-Open the AWS console, go to the API Gateway page, add the binary media types `image/jpeg` and `image/png` and save.
+Open the AWS console, go to the API Gateway page, add the binary media types `*/*` and save.
 
 <img width="500" alt="Edit Binary Support" src="https://cloud.githubusercontent.com/assets/10407788/22188711/bd625edc-e0e5-11e6-8e88-76824af6033d.png">
 
