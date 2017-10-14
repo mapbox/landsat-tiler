@@ -1,0 +1,14 @@
+{
+    "name": "landsat-tiler",
+    "version": "1.0.0",
+    "description": "Create a highly customizable `serverless` tile server for Amazon's Landsat Public Dataset",
+    "devDependencies": {
+        "serverless-apigw-binary": "^0.4.1",
+        "serverless": "^1.23.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/mapbox/landsat-tiler.git"
+    },
+    "author": "Vincent Sarago"
+}
