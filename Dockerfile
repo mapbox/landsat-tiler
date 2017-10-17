@@ -2,7 +2,7 @@
 FROM remotepixel/amazonlinux-gdal:latest
 
 # Install Python dependencies
-RUN pip3 install rio-tiler --no-binary numpy,rasterio -t /tmp/vendored -U
+RUN pip3 install rio-tiler==0.0.2 --no-binary numpy,rasterio -t /tmp/vendored -U
 
 COPY app /tmp/vendored/app
 
