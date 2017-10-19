@@ -39,10 +39,12 @@ In addition to only have to provide code, an other crucial point of AWS Lambda i
 
 Creating a python lambda package with some C (or Cython) libraries like Rasterio/GDAL has never been an easy task because you have to compile and build it on the same infrastructure where it's going to be used (Amazon linux AMI). Until recently, to create your package you had to launch an EC2 instance using the official Amazon Linux AMI and create your package on it (see [perrygeo blog](http://www.perrygeo.com/running-python-with-compiled-code-on-aws-lambda.html) or [Remotepixel blog](https://remotepixel.ca/blog/landsat8-ndvi-20160212.html)).
 
-But this was before, Late 2016, the AWS team released the Amazon Linux image on docker, so it's now possible to use it `locally` to compile C libraries and create complex lambda package.
+But this was before, Late 2016, the AWS team released the Amazon Linux image on docker, so it's now possible to use it `locally` to compile C libraries and create complex lambda package ([see Dockerfile](https://github.com/mapbox/landsat-tiler/blob/master/Dockerfile)).
 
-To keep everything simple and fast we can use **Remotepixel**'s Amazonlinux docker image available on [Docker Hub](https://hub.docker.com/r/remotepixel/amazonlinux-gdal/). This docker image has a custom version of GDAL compiled supporting GeoTIFF and OpenJPEG formats.
-
+Note: to stay under AWS lambda package sizes limits (100Mb zipped file / 250Mb unzipped archive) we need to use some [`tricks`](https://github.com/mapbox/landsat-tiler/blob/e4eebb512f51c55d95607daa483a14d2091fa0a1/Dockerfile#L30).
+- use Rasterio wheels which is a complete raterio distribution that support GeoTIFF, OpenJPEG formats.
+- remove every packages that are already available natively in AWS Lambda (boto3, botocore ...)
+- keep only precompiled python code (`.pyc`) so it lighter and it loads faster
 
 ```bash
 # Build Amazon linux AMI docker container + Install Python modules + create package
