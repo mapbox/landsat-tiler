@@ -16,7 +16,7 @@ Since 2015 Landsat 8 data is hosted on AWS and can be freely accessed. This data
 
 > AWS has made Landsat 8 data freely available on Amazon S3 so that anyone can use our on-demand computing resources to perform analysis and create new products without needing to worry about the cost of storing Landsat data or the time required to download it.
 
-more info: https://aws.amazon.com/fr/public-datasets/landsat/
+more info: https://aws.amazon.com/public-datasets/landsat/
 
 Something important about AWS Landsat-pds is that each Landsat scene has its individual bands stored as [cloud optimized GeoTIFF](https://trac.osgeo.org/gdal/wiki/CloudOptimizedGeoTIFF). While this is a critical point to work with the data, it also means that to create an RGB image and visualize it, you have to go through a lot of manual steps.
 
