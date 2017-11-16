@@ -42,7 +42,7 @@ Creating a python lambda package with some C (or Cython) libraries like Rasterio
 But this was before, Late 2016, the AWS team released the Amazon Linux image on docker, so it's now possible to use it `locally` to compile C libraries and create complex lambda package ([see Dockerfile](https://github.com/mapbox/landsat-tiler/blob/master/Dockerfile)).
 
 Note: to stay under AWS lambda package sizes limits (100Mb zipped file / 250Mb unzipped archive) we need to use some [`tricks`](https://github.com/mapbox/landsat-tiler/blob/e4eebb512f51c55d95607daa483a14d2091fa0a1/Dockerfile#L30).
-- use Rasterio wheels which is a complete raterio distribution that support GeoTIFF, OpenJPEG formats.
+- use Rasterio wheels which is a complete rasterio distribution that support GeoTIFF, OpenJPEG formats.
 - remove every packages that are already available natively in AWS Lambda (boto3, botocore ...)
 - keep only precompiled python code (`.pyc`) so it lighter and it loads faster
 
