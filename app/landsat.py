@@ -4,8 +4,10 @@ import json
 
 from cachetools.func import rr_cache
 
+import numpy as np
+
 from rio_tiler import landsat8
-from rio_tiler.utils import array_to_img
+from rio_tiler.utils import array_to_img, linear_rescale
 
 from app.proxy import API
 
@@ -74,8 +76,14 @@ def landsat_tile(scene, tile_z, tile_x, tile_y, tileformat):
 
     pan = True if query_args.get('pan') else False
 
-    tile = landsat8.tile(scene, tile_x, tile_y, tile_z, rgb, r_bds, g_bds,
-                         b_bds, pan=pan, tilesize=tilesize)
+    tile = landsat8.tile(scene, tile_x, tile_y, tile_z, rgb, pan=pan, tilesize=tilesize)
+
+    # Rescale Intensity to byte (1->255) with 0 being NoData
+    histo_cuts = dict(zip(rgb, [r_bds, g_bds, b_bds]))
+    for bdx, band in enumerate(rgb):
+        tile[bdx] = np.where(
+            tile[bdx] > 0,
+            linear_rescale(tile[bdx], in_range=histo_cuts.get(band), out_range=[1, 255]), 0)
 
     tile = array_to_img(tile, tileformat)
 
