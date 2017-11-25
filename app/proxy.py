@@ -205,8 +205,7 @@ class API(object):
 
         view_function = route_entry.view_function
 
-        function_args = self._get_matching_args(route_entry.uri_pattern,
-                                                resource_path)
+        function_args = self._get_matching_args(route_entry.uri_pattern, resource_path)
 
         self.current_request = Request(event['queryStringParameters'],
                                        event['path'],
@@ -217,7 +216,6 @@ class API(object):
 
         except Exception as err:
             self.log.error(str(err))
-            response = ('ERROR', 'application/json',
-                        json.dumps({'errorMessage': str(err)}))
+            response = ('ERROR', 'application/json', json.dumps({'errorMessage': str(err)}))
 
         return self.response(response[0], response[1], response[2], route_entry.cors)

@@ -2,12 +2,12 @@
 
 import re
 import json
-import numexpr as ne
 from functools import reduce
 
-from cachetools.func import rr_cache
-
 import numpy as np
+import numexpr as ne
+
+from cachetools.func import rr_cache
 
 from rio_tiler import landsat8
 from rio_tiler.utils import array_to_img, linear_rescale, get_colormap
