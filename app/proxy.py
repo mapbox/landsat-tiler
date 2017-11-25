@@ -190,18 +190,18 @@ class API(object):
         resource_path = event['path']
         if resource_path is None:
             return self.response('NOK', 'application/json', json.dumps({
-                'ErrorMessage': 'Bad Route: {resource_path}'}))
+                'errorMessage': 'Bad Route: {resource_path}'}))
 
         if not self._url_matching(resource_path):
             return self.response('NOK', 'application/json', json.dumps({
-                'ErrorMessage': 'No view function for: {}'.format(resource_path)}))
+                'errorMessage': 'No view function for: {}'.format(resource_path)}))
 
         route_entry = self.routes[self._get_route_match(resource_path)]
 
         http_method = event['httpMethod']
         if http_method not in route_entry.methods:
             return self.response('NOK', 'application/json', json.dumps({
-                'ErrorMessage': 'Unsupported method: {}'.format(http_method)}), route_entry.cors)
+                'errorMessage': 'Unsupported method: {}'.format(http_method)}), route_entry.cors)
 
         view_function = route_entry.view_function
 
@@ -218,6 +218,6 @@ class API(object):
         except Exception as err:
             self.log.error(str(err))
             response = ('ERROR', 'application/json',
-                        json.dumps({'ErrorMessage': str(err)}))
+                        json.dumps({'errorMessage': str(err)}))
 
         return self.response(response[0], response[1], response[2], route_entry.cors)
