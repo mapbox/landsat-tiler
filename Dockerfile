@@ -20,7 +20,7 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 RUN pip3 install numpy wheel cython --no-binary numpy
 
 # Install Python dependencies
-RUN pip3 install rio-tiler>=1.0.0 lambda_proxy --no-binary numpy -t /tmp/vendored -U
+RUN pip3 install rio-tiler>=1.0.0 lambda_proxy numexpr --no-binary numpy -t /tmp/vendored -U
 
 # Reduce Lambda package size to fit the 250Mb limit
 # Mostly based on https://github.com/jamesandersen/aws-machine-learning-demo
