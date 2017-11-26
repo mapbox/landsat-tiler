@@ -12,7 +12,7 @@ from cachetools.func import rr_cache
 from rio_tiler import landsat8
 from rio_tiler.utils import array_to_img, linear_rescale, get_colormap
 
-from app.proxy import API
+from lambda_proxy.proxy import API
 
 LANDSAT_APP = API(app_name="landsat-tiler")
 
