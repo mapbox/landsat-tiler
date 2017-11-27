@@ -76,7 +76,7 @@ def landsat_tile(scene, tile_z, tile_x, tile_y, tileformat):
     bands = query_args.get('rgb', '4,3,2')
     bands = tuple(re.findall(r'\d+', bands))
 
-    histoCut = query_args.get('histo', '0,16000')
+    histoCut = query_args.get('histo', ';'.join(['0,16000'] * len(bands)))
     histoCut = re.findall(r'\d+,\d+', histoCut)
     histoCut = list(map(lambda x: list(map(int, x.split(','))), histoCut))
 
