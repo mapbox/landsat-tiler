@@ -7,8 +7,6 @@ from functools import reduce
 import numpy as np
 import numexpr as ne
 
-from cachetools.func import rr_cache
-
 from rio_tiler import landsat8
 from rio_tiler.utils import array_to_img, linear_rescale, get_colormap
 
@@ -35,7 +33,6 @@ class LandsatTilerError(Exception):
     """Base exception class"""
 
 
-@rr_cache()
 @LANDSAT_APP.route('/landsat/bounds/<scene>', methods=['GET'], cors=True)
 def landsat_bounds(scene):
     """
@@ -45,7 +42,6 @@ def landsat_bounds(scene):
     return ('OK', 'application/json', json.dumps(info))
 
 
-@rr_cache()
 @LANDSAT_APP.route('/landsat/metadata/<scene>', methods=['GET'], cors=True)
 def landsat_metadata(scene):
     """
@@ -64,7 +60,6 @@ def landsat_metadata(scene):
     return ('OK', 'application/json', json.dumps(info))
 
 
-@rr_cache()
 @LANDSAT_APP.route('/landsat/tiles/<scene>/<int:z>/<int:x>/<int:y>.<ext>', methods=['GET'], cors=True)
 def landsat_tile(scene, tile_z, tile_x, tile_y, tileformat):
     """
@@ -89,23 +84,19 @@ def landsat_tile(scene, tile_z, tile_x, tile_y, tileformat):
     pan = True if query_args.get('pan') else False
 
     tile = landsat8.tile(scene, tile_x, tile_y, tile_z, bands, pan=pan, tilesize=tilesize)
-
-    # Rescale Intensity to byte (1->255) with 0 being NoData
-    histo_cuts = dict(zip(bands, histoCut))
-    for bdx, band in enumerate(bands):
-        tile[bdx] = np.where(
+    rtile = np.zeros((len(bands), tilesize, tilesize), dtype=np.uint8)
+    for bdx in range(len(bands)):
+        rtile[bdx] = np.where(
             tile[bdx] > 0,
-            linear_rescale(tile[bdx], in_range=histo_cuts.get(band), out_range=[1, 255]), 0)
+            linear_rescale(tile[bdx], in_range=histoCut[bdx], out_range=[1, 255]), 0)
 
-    tile = array_to_img(tile, tileformat)
-
+    tile = array_to_img(rtile, tileformat)
     if tileformat == 'jpg':
         tileformat = 'jpeg'
 
     return ('OK', f'image/{tileformat}', tile)
 
 
-@rr_cache()
 @LANDSAT_APP.route('/landsat/processing/<scene>/<int:z>/<int:x>/<int:y>.<ext>', methods=['GET'], cors=True)
 def landsat_ratio(scene, tile_z, tile_x, tile_y, tileformat):
     """
@@ -136,12 +127,11 @@ def landsat_ratio(scene, tile_z, tile_x, tile_y, tileformat):
         -9999)
 
     range_val = equation = RATIOS[ratio_value]['rg']
-    tile = np.where(
+    rtile = np.where(
             tile != -9999,
             linear_rescale(tile, in_range=range_val, out_range=[1, 255]), 0).astype(np.uint8)
 
-    tile = array_to_img(tile, tileformat, color_map=get_colormap(name='cfastie'))
-
+    tile = array_to_img(rtile, tileformat, color_map=get_colormap(name='cfastie'))
     if tileformat == 'jpg':
         tileformat = 'jpeg'
 
