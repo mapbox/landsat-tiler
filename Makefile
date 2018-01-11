@@ -27,10 +27,13 @@ test:
 	docker exec -it lambda bash -c 'pip3 install boto3 jmespath python-dateutil -t /var/task'
 	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/bounds/LC80230312016320LGN00", "queryStringParameters": "null", "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
 	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/metadata/LC80230312016320LGN00", "queryStringParameters": {"pmin":"2", "pmax":"99.8"}, "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
-	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/tiles/LC80230312016320LGN00/8/65/94.png", "queryStringParameters": {"rgb":"5,3,2", "r_bds":"722,5088", "g_bds":"859,4861", "b_bds":"1164,5204"}, "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
-	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/tiles/LC80230312016320LGN00/8/65/94.png", "queryStringParameters": {"rgb":"4,3,2", "r_bds":"722,5088", "g_bds":"859,4861", "b_bds":"1164,5204", "pan":"true"}, "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
+	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/processing/LC80230312016320LGN00/8/65/94.png", "queryStringParameters": {"ratio":"ndvi"}, "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
+	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/tiles/LC80230312016320LGN00/8/65/94.png", "queryStringParameters": {"rgb":"11", "histo":"0,1000"}, "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
+	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/tiles/LC80230312016320LGN00/8/65/94.png", "queryStringParameters": {"rgb":"5,3,2", "histo":"722,5088;859,4861;1164,5204"}, "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
+	docker exec -it lambda python3 -c 'from app.landsat import LANDSAT_APP; print(LANDSAT_APP({"path": "/landsat/tiles/LC80230312016320LGN00/8/65/94.png", "queryStringParameters": {"rgb":"4,3,2", "histo":"722,5088;859,4861;1164,5204", "pan":"true"}, "pathParameters": "null", "requestContext": "null", "httpMethod": "GET"}, None))'
 	docker stop lambda
 	docker rm lambda
+
 
 package:
 	docker run \
