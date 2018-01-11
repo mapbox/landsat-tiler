@@ -118,9 +118,7 @@ To be able to run it, edit those [two lines](https://github.com/mapbox/landsat-t
   *Options:*
 
   - rgb: Bands index for the RGB combination (default: (4, 3, 2))
-  - r_bds: First band (red) DN min and max values (default: (0, 16000))
-  - g_bds: Second band (green) DN min and max values (default: (0, 16000))
-  - b_bds: Third band (blue) DN min and max values (default: (0, 16000))
+  - histo: DN min and max values (default: (0, 16000))
   - tile: Output image size (default: 256)
   - pan: If True, apply pan-sharpening(default: False)
 
@@ -130,7 +128,7 @@ To be able to run it, edit those [two lines](https://github.com/mapbox/landsat-t
 
   *Example:*
   - `<api-gateway-url>/landsat/tile/LC08_L1TP_016037_20170813_20170814_01_RT/8/71/102.png`
-  - `<api-gateway-url>/landsat/tile/LC08_L1TP_016037_20170813_20170814_01_RT/8/71/102.png?rgb=5,4,3&r_bds=100,3000&g_bds=130,2700&b_bds=500,4500&tile=1024&pan=true`
+  - `<api-gateway-url>/landsat/tile/LC08_L1TP_016037_20170813_20170814_01_RT/8/71/102.png?rgb=5,4,3&histo=100,3000-130,270-500,4500&tile=1024&pan=true`
 
 
 ---
