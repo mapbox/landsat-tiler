@@ -82,7 +82,7 @@ To be able to run it, edit those [two lines](https://github.com/mapbox/landsat-t
 
 ## Workflow
 
-1. One AWS ƛ call to get min/max percent cut value for all the bands and bounds
+1. One AWS λ call to get min/max percent cut value for all the bands and bounds
 
   *Path:* **/landsat/metdata/{landsat scene id}**
 
@@ -103,7 +103,7 @@ To be able to run it, edit those [two lines](https://github.com/mapbox/landsat-t
 
   *Example:* `<api-gateway-url>/landsat/metadata/LC08_L1TP_016037_20170813_20170814_01_RT?pmin=5&pmax=95`
 
-2. Parallel AWS ƛ calls (one per mercator tile) to retrieve corresponding Landsat data
+2. Parallel AWS λ calls (one per mercator tile) to retrieve corresponding Landsat data
 
   *Path:* **/landsat/tiles/{landsat scene id}/{z}/{x}/{y}.{ext}**
 
