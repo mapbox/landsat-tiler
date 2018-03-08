@@ -6,7 +6,7 @@ import json
 import numpy as np
 
 from rio_tiler import landsat8
-from rio_tiler.utils import array_to_img, linear_rescale, get_colormap, expression
+from rio_tiler.utils import array_to_img, linear_rescale, get_colormap, expression, b64_encode_img
 
 from aws_sat_api.search import landsat as landsat_search
 
@@ -68,6 +68,9 @@ def metadata(scene):
 def tile(scene, tile_z, tile_x, tile_y, tileformat):
     """Handle tile requests
     """
+    if tileformat == 'jpg':
+        tileformat = 'jpeg'
+
     query_args = APP.current_request.query_params
     query_args = query_args if isinstance(query_args, dict) else {}
 
@@ -90,19 +93,18 @@ def tile(scene, tile_z, tile_x, tile_y, tileformat):
     rtile = np.zeros((len(bands), tilesize, tilesize), dtype=np.uint8)
     for bdx in range(len(bands)):
         rtile[bdx] = np.where(mask, linear_rescale(tile[bdx], in_range=histoCut[bdx], out_range=[0, 255]), 0)
-
-    tile = array_to_img(rtile, tileformat, mask=mask)
-
-    if tileformat == 'jpg':
-        tileformat = 'jpeg'
-
-    return ('OK', f'image/{tileformat}', tile)
+    img = array_to_img(rtile, mask=mask)
+    str_img = b64_encode_img(img, tileformat)
+    return ('OK', f'image/{tileformat}', str_img)
 
 
 @APP.route('/landsat/processing/<scene>/<int:z>/<int:x>/<int:y>.<ext>', methods=['GET'], cors=True)
 def ratio(scene, tile_z, tile_x, tile_y, tileformat):
     """Handle processing requests
     """
+    if tileformat == 'jpg':
+        tileformat = 'jpeg'
+
     query_args = APP.current_request.query_params
     query_args = query_args if isinstance(query_args, dict) else {}
 
@@ -119,12 +121,9 @@ def ratio(scene, tile_z, tile_x, tile_y, tileformat):
         tile = np.expand_dims(tile, axis=0)
 
     rtile = np.where(mask, linear_rescale(tile, in_range=range_value, out_range=[0, 255]), 0).astype(np.uint8)
-    tile = array_to_img(rtile, tileformat, color_map=get_colormap(name='cfastie'), mask=mask)
-
-    if tileformat == 'jpg':
-        tileformat = 'jpeg'
-
-    return ('OK', f'image/{tileformat}', tile)
+    img = array_to_img(rtile, color_map=get_colormap(name='cfastie'), mask=mask)
+    str_img = b64_encode_img(img, tileformat)
+    return ('OK', f'image/{tileformat}', str_img)
 
 
 @APP.route('/favicon.ico', methods=['GET'], cors=True)
