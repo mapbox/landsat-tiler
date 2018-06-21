@@ -6,14 +6,6 @@ const sat_api = 'https://api.developmentseed.org/satellites/?search=';
 
 let scope = {};
 
-const zeroPad = (n, c) => {
-    //From Libra by developmentseed (https://github.com/developmentseed/libra)
-    let s = String(n);
-    if (s.length < c) s = zeroPad('0' + n, c);
-    return s;
-};
-
-
 const sortScenes = (a, b) => {
     return Date.parse(b.date) - Date.parse(a.date);
 };
