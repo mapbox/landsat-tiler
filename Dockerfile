@@ -18,7 +18,7 @@ RUN curl https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tar.xz | tar -xJ \
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 # Install Python dependencies
-RUN pip3 install rio-tiler==1.0a.8 lambda-proxy==0.0.4 aws-sat-api==1.0.0 --no-binary numpy -t /tmp/vendored -U
+RUN pip3 install rio-tiler==1.0b2 lambda-proxy==0.0.4 aws-sat-api==1.0.0 --no-binary numpy -t /tmp/vendored -U
 
 # Reduce Lambda package size to fit the 250Mb limit
 # Mostly based on https://github.com/jamesandersen/aws-machine-learning-demo
